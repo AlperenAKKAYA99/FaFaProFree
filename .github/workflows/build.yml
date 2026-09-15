@@ -64,6 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       resolved_version: ${{ steps.resolve.outputs.version }}
+      profiles: ${{ steps.set-matrix.outputs.profiles }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -97,6 +98,18 @@ jobs:
             echo "Target version set to: $CLEAN_VER"
           fi
 
+      - name: Determine Profile Matrix
+        id: set-matrix
+        run: |
+          PROFILE="${{ github.event.inputs.profile }}"
+          if [ -z "$PROFILE" ] || [ "$PROFILE" = "all" ]; then
+            echo 'profiles=["Free", "Pro", "Pro-Plus"]' >> "$GITHUB_OUTPUT"
+            echo "Matrix profiles: Free, Pro, Pro-Plus"
+          else
+            echo "profiles=[\"$PROFILE\"]" >> "$GITHUB_OUTPUT"
+            echo "Matrix profile: $PROFILE"
+          fi
+
   build-and-verify:
     name: Build & Verify (${{ matrix.profile }})
     needs: [unit-tests, discovery]
@@ -104,12 +117,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: ["Free", "Pro", "Pro-Plus"]
-    # Only run the selected profile if specific profile was requested in workflow_dispatch
-    if: |
-      github.event_name != 'workflow_dispatch' ||
-      github.event.inputs.profile == 'all' ||
-      github.event.inputs.profile == matrix.profile
+        profile: ${{ fromJson(needs.discovery.outputs.profiles) }}
 
     steps:
       - name: Checkout Repository
