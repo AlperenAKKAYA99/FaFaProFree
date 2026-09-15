@@ -11,7 +11,7 @@
 
 ![FaFaProFree Русский Баннер](assets/images/thumbnail_ru.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![CI Build](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen.svg)](.github/workflows/build.yml)
 [![Scope: Educational Research](https://img.shields.io/badge/Scope-Educational%20Research-red.svg)](#-юридическое-лицензирование-и-предупреждение-об-авторских-правах)
@@ -295,5 +295,5 @@ python fa_pro_v3.py --clean --clean-cache
 
 ## 📄 Модель лицензирования
 
-- **Инструменты автоматизации и код проекта:** Распространяются под лицензией [MIT License](LICENSE.txt).
+- **Инструменты автоматизации и код проекта:** Распространяются под лицензией [MIT License](LICENSE).
 - **Ресурсы Font Awesome:** Являются интеллектуальной собственностью компании [Fonticons, Inc.](https://fontawesome.com) и защищены коммерческими лицензиями.

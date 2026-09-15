@@ -26,28 +26,38 @@ if sys.stdout and hasattr(sys.stdout, 'encoding'):
 # Paths that must NEVER be deleted
 PROTECTED_PATHS = {
     "fa_pro_v3.py",
+    "main.py",
+    "pyproject.toml",
     "README.md",
+    "README.tr.md",
+    "README.ru.md",
+    "README.de.md",
+    "LICENSE",
     "LICENSE.txt",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
     "CHANGELOG.md",
     "requirements.txt",
     ".gitignore",
     "config",
     "scripts",
+    "assets",
+    "lang",
+    "tests",
     ".github",
     ".git",
-    "old_fontawesome-tree.json",
-    "Font Awesome Pro Free Thumbnail.png",
-    "Font Awesome Pro Free Thumbnail_tr.png",
 }
 
 
-def safe_clean(workspace_root: Path, clean_logs: bool = False, dry_run: bool = False) -> int:
+def safe_clean(workspace_root: Path, clean_logs: bool = False, clean_cache: bool = False, dry_run: bool = False) -> int:
     """
     Cleans build/ and generated artifacts safely.
     
     Args:
         workspace_root: Project root directory
-        clean_logs: If True, also clears logs/
+        clean_logs: If True, also clears logs/ (preserves .gitkeep)
+        clean_cache: If True, also clears .cache/
         dry_run: If True, only prints what would be deleted
         
     Returns:
@@ -141,6 +151,9 @@ def safe_clean(workspace_root: Path, clean_logs: bool = False, dry_run: bool = F
                 cleaned_count += 1
                 if not dry_run:
                     log_file.unlink(missing_ok=True)
+            if not dry_run:
+                (logs_dir / ".gitkeep").touch(exist_ok=True)
+
 
     print("-" * 60)
     print(f"  Clean completed. Total items cleaned: {cleaned_count}")

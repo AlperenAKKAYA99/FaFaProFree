@@ -11,7 +11,7 @@
 
 ![FaFaProFree Türkçe Banner](assets/images/thumbnail_tr.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![CI Build](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen.svg)](.github/workflows/build.yml)
 [![Scope: Educational Research](https://img.shields.io/badge/Scope-Educational%20Research-red.svg)](#-yasal-lisanslama-ve-telif-hakkı-uyarısı)
@@ -294,5 +294,5 @@ Proje deposunda 2 adet otomatik GitHub Actions iş akışı bulunmaktadır:
 
 ## 📄 Lisanslama Modeli
 
-- **Derleme ve Otomasyon Araçları (Kod Tabanı):** [MIT Lisansı](LICENSE.txt) altında sunulmaktadır.
+- **Derleme ve Otomasyon Araçları (Kod Tabanı):** [MIT Lisansı](LICENSE) altında sunulmaktadır.
 - **Font Awesome Varlıkları:** [Fonticons, Inc.](https://fontawesome.com) mülkiyetindedir ve ticari projelerde resmi ticari lisans gerektirir.

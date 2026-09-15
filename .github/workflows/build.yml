@@ -6,28 +6,40 @@ on:
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Font Awesome version (e.g. latest, last, 7.3.1, 6.7.2, 5.15.4)'
+        required: true
+        default: 'latest'
+      profile:
+        type: choice
+        description: 'Profile to build & verify'
+        options:
+          - 'all'
+          - 'Free'
+          - 'Pro'
+          - 'Pro-Plus'
+        default: 'all'
+      scan_versions:
+        type: boolean
+        description: 'Scan and publish release discovery table in summary'
+        default: true
 
 permissions:
   contents: read
 
 jobs:
-  validate-and-build:
-    name: Build & Verification Test
+  unit-tests:
+    name: Run Unit Tests & Config Validation
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-        profile: ["Free", "Pro"]
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.11"
           cache: 'pip'
 
       - name: Install Dependencies
@@ -35,23 +47,97 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run Test Suite
+        run: |
+          python -m unittest discover -s tests -v
+
       - name: Validate Build Configuration
         run: |
           python scripts/verify_build.py --check-config
 
-      - name: Execute Build (${{ matrix.profile }})
+  discovery:
+    name: Scan Releases & Resolve Version
+    runs-on: ubuntu-latest
+    outputs:
+      resolved_version: ${{ steps.resolve.outputs.version }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Scan Releases & Publish Summary
+        run: |
+          python scripts/version_resolver.py --refresh --github-summary
+
+      - name: Resolve Version Output
+        id: resolve
+        run: |
+          INPUT_VER="${{ github.event.inputs.version }}"
+          if [ -z "$INPUT_VER" ] || [ "$INPUT_VER" = "latest" ] || [ "$INPUT_VER" = "last" ]; then
+            RESOLVED=$(python scripts/version_resolver.py --get-latest)
+            echo "version=$RESOLVED" >> "$GITHUB_OUTPUT"
+            echo "Resolved target version: $RESOLVED"
+          else
+            CLEAN_VER="${INPUT_VER#v}"
+            echo "version=$CLEAN_VER" >> "$GITHUB_OUTPUT"
+            echo "Target version set to: $CLEAN_VER"
+          fi
+
+  build-and-verify:
+    name: Build & Verify (${{ matrix.profile }})
+    needs: [unit-tests, discovery]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: ["Free", "Pro", "Pro-Plus"]
+    # Only run the selected profile if specific profile was requested in workflow_dispatch
+    if: |
+      github.event_name != 'workflow_dispatch' ||
+      github.event.inputs.profile == 'all' ||
+      github.event.inputs.profile == matrix.profile
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute Build (${{ matrix.profile }} @ v${{ needs.discovery.outputs.resolved_version }})
         env:
           FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
         run: |
-          python fa_pro_v3.py --version 7.3.1 --profile ${{ matrix.profile }} --css --fonts --non-interactive --archive
+          python fa_pro_v3.py \
+            --version ${{ needs.discovery.outputs.resolved_version }} \
+            --profile ${{ matrix.profile }} \
+            --css --fonts --non-interactive --archive
 
-      - name: Verify Build Integrity & Security
+      - name: Verify Build Integrity & Security (Strict)
         run: |
-          python scripts/verify_build.py
+          python scripts/verify_build.py --level strict
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: FaFaProFree-v7.3.1-${{ matrix.profile }}-py${{ matrix.python-version }}
+          name: FaFaProFree-v${{ needs.discovery.outputs.resolved_version }}-${{ matrix.profile }}
           path: FaFaProFree-*.zip
           retention-days: 7

@@ -312,6 +312,8 @@ Examples:
                             help="Safely remove build/ artifacts and temporary files")
     util_group.add_argument("--clean-cache", action="store_true",
                             help="Also delete .cache/ when cleaning")
+    util_group.add_argument("--clean-logs", action="store_true",
+                            help="Also delete old log files in logs/")
     util_group.add_argument("--list-profiles", action="store_true",
                             help="List all defined build profiles and exit")
     util_group.add_argument("--list-versions", action="store_true",
@@ -334,8 +336,9 @@ def main():
 
     # 1. Clean Utility Mode
     if args.clean:
-        safe_clean(workspace_root, clean_cache=args.clean_cache)
+        safe_clean(workspace_root, clean_logs=args.clean_logs, clean_cache=args.clean_cache)
         sys.exit(0)
+
 
     # Load project configuration
     full_cfg = load_config(workspace_root)
@@ -402,8 +405,10 @@ def main():
     profile_key = args.profile or args.plan
     if profile_key:
         matched_key = None
+        norm_input = profile_key.lower().replace("-", "").replace("_", "").replace("+", "plus")
         for k in profiles.keys():
-            if k.lower() == profile_key.lower() or k.lower().replace("-", "") == profile_key.lower().replace("-", ""):
+            norm_k = k.lower().replace("-", "").replace("_", "").replace("+", "plus")
+            if k.lower() == profile_key.lower() or norm_k == norm_input:
                 matched_key = k
                 break
         if not matched_key:
@@ -417,8 +422,15 @@ def main():
 
     # 6. Determine Version
     version = args.version
-    if version:
-        version = version.lstrip("v")
+    if version and version.strip().lower() in ("latest", "last", "newest"):
+        disco = get_available_versions(
+            workspace_root=workspace_root,
+            refresh=args.refresh_versions,
+            max_pages=args.pages
+        )
+        version = disco.get("latest", full_cfg.get("default_version", "7.3.1"))
+    elif version:
+        version = clean_version_str(version)
     elif args.non_interactive or args.dry_run or args.verify or args.repair:
         disco = get_available_versions(
             workspace_root=workspace_root,

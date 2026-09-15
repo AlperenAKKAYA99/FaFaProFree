@@ -377,6 +377,27 @@ def get_available_versions(
     return result_data
 
 
+def format_github_summary(data: Dict[str, Any]) -> str:
+    """Formats discovery results into a clean Markdown table for GitHub Actions."""
+    lines = [
+        "### 🔍 Font Awesome Release Discovery Summary",
+        "",
+        f"- **Discovery Source:** `{data.get('source')}`",
+        f"- **Total Discovered Releases:** `{data.get('total_discovered', len(data.get('versions', [])))}`",
+        f"- **Latest Discovered Release:** **v{data.get('latest')}**",
+        f"- **Last Updated:** `{data.get('updated_at')}`",
+        "",
+        "| Major Series | Top Releases in Series | Total |",
+        "| :--- | :--- | :---: |"
+    ]
+    groups = data.get("groups", {})
+    for major, v_list in groups.items():
+        top_vers = ", ".join([f"`v{v}`" for v in v_list[:5]])
+        lines.append(f"| **{major.upper()}** | {top_vers} | {len(v_list)} releases |")
+    lines.append("")
+    return "\n".join(lines)
+
+
 # ═══════════════════════════════════════════════════════════════════════
 #  CLI TEST & DIAGNOSTICS
 # ═══════════════════════════════════════════════════════════════════════
@@ -388,9 +409,27 @@ def main():
     parser.add_argument("--pages", type=int, default=3, help="Pages of releases to scrape (default: 3)")
     parser.add_argument("--validate", action="store_true", help="Validate CDN availability of top versions")
     parser.add_argument("--json", action="store_true", help="Output results in JSON format")
+    parser.add_argument("--get-latest", action="store_true", help="Output only the latest version string")
+    parser.add_argument("--github-summary", action="store_true", help="Output summary in Markdown and write to GITHUB_STEP_SUMMARY if present")
     args = parser.parse_args()
 
     data = get_available_versions(refresh=args.refresh, max_pages=args.pages, validate_cdn=args.validate)
+
+    if args.get_latest:
+        print(data.get("latest", "7.3.1"))
+        return
+
+    if args.github_summary:
+        summary = format_github_summary(data)
+        print(summary)
+        summary_env = os.environ.get("GITHUB_STEP_SUMMARY")
+        if summary_env:
+            try:
+                with open(summary_env, "a", encoding="utf-8") as f:
+                    f.write(summary + "\n")
+            except Exception:
+                pass
+        return
 
     if args.json:
         print(json.dumps(data, indent=2, ensure_ascii=False))
@@ -423,3 +462,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -11,7 +11,7 @@
 
 ![FaFaProFree Deutscher Banner](assets/images/thumbnail_de.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![CI Build](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen.svg)](.github/workflows/build.yml)
 [![Scope: Educational Research](https://img.shields.io/badge/Scope-Educational%20Research-red.svg)](#-rechtliche-hinweise-und-urheberrechtswarnung)
@@ -295,5 +295,5 @@ Das Repository umfasst zwei automatisierte Workflows:
 
 ## 📄 Lizenzmodell
 
-- **Automatisierungs-Tools und Quellcode:** Lizenziert unter der [MIT-Lizenz](LICENSE.txt).
+- **Automatisierungs-Tools und Quellcode:** Lizenziert unter der [MIT-Lizenz](LICENSE).
 - **Font Awesome Assets:** Geistiges Eigentum von [Fonticons, Inc.](https://fontawesome.com) und unterliegen deren kommerziellen Lizenzbedingungen.

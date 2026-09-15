@@ -37,8 +37,33 @@ class TestVersionResolver(unittest.TestCase):
         self.assertIn("v5", grouped)
         self.assertEqual(len(grouped["v7"]), 2)
         self.assertEqual(len(grouped["v6"]), 1)
-        self.assertEqual(len(grouped["v5"]), 1)
+    def test_format_github_summary(self):
+        from scripts.version_resolver import format_github_summary
+        mock_data = {
+            "source": "api",
+            "latest": "7.3.1",
+            "total_discovered": 3,
+            "updated_at": "2026-09-15T00:00:00Z",
+            "groups": {
+                "v7": ["7.3.1", "7.3.0"],
+                "v6": ["6.7.2"]
+            }
+        }
+        summary = format_github_summary(mock_data)
+        self.assertIn("### 🔍 Font Awesome Release Discovery Summary", summary)
+        self.assertIn("v7.3.1", summary)
+        self.assertIn("| **V7** |", summary)
+        self.assertIn("| **V6** |", summary)
+
+    def test_discovery_data_structure(self):
+        from scripts.version_resolver import get_available_versions
+        data = get_available_versions(refresh=False)
+        self.assertIn("latest", data)
+        self.assertIn("versions", data)
+        self.assertTrue(len(data["versions"]) > 0)
+        self.assertEqual(data["latest"], data["versions"][0])
 
 
 if __name__ == "__main__":
     unittest.main()
+

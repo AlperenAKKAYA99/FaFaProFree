@@ -5,7 +5,27 @@ All notable changes to the FaFaProFree project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2026-09-15
+
+### Added
+- **Dynamic Version CI/CD Integration (`build.yml` & `release.yml`)**:
+  - Interactive `workflow_dispatch` parameter support for `version`: accepts `latest`, `last`, or any historical semver (`7.3.1`, `6.7.2`, `5.15.4`, etc.).
+  - Interactive profile filtering: supports `all`, `Free`, `Pro`, and `Pro-Plus` (pro+).
+  - Automated Release Discovery Step: scans Font Awesome releases in real time and publishes a Markdown summary directly to `$GITHUB_STEP_SUMMARY`.
+  - Continuous Integration: automated execution of unit tests (`tests/`) and config validation before build execution.
+  - Cross-profile matrix testing across `Free`, `Pro`, and `Pro-Plus`.
+- **Core Engine CLI Enhancements**:
+  - `fa_pro_v3.py`: Added support for `--version latest` and `--version last` (case-insensitive) to automatically discover and select the newest release.
+  - Profile resolution enhancements: maps `pro+`, `proplus`, `pro_plus` to `Pro-Plus` profile.
+  - Added `--clean-logs` flag to `fa_pro_v3.py` for safe maintenance of old build logs while preserving directory structure (`logs/.gitkeep`).
+  - `scripts/version_resolver.py`: Added `--get-latest` flag for clean pipeline version extraction and `--github-summary` flag for markdown tables.
+- **Repository Hygiene & File Harmonization**:
+  - Cleaned empty `.backup/` directory.
+  - Purged old test build logs in `logs/` while preserving `.gitkeep`.
+  - Harmonized root licensing by removing duplicate `LICENSE.txt` and maintaining canonical `LICENSE` (while build output correctly retains `LICENSE.txt`).
+
 ## [3.3.0] - 2026-09-15
+
 
 ### Added
 - **Repository Architecture & Layout Restructuring**:

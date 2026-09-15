@@ -1,4 +1,4 @@
-name: Release Packaging
+name: Release Packaging & Distribution
 
 on:
   push:
@@ -7,9 +7,22 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Font Awesome version to package (e.g. 7.3.1)'
+        description: 'Font Awesome version to package (e.g. latest, last, 7.3.1, 6.7.2, 5.15.4)'
         required: true
-        default: '7.3.1'
+        default: 'latest'
+      profile:
+        type: choice
+        description: 'Profile(s) to package'
+        options:
+          - 'all'
+          - 'Free'
+          - 'Pro'
+          - 'Pro-Plus'
+        default: 'all'
+      scan_versions:
+        type: boolean
+        description: 'Scan and publish release discovery table in summary'
+        default: true
 
 permissions:
   contents: write
@@ -33,42 +46,85 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Determine Version
-        id: get_version
+      - name: Run Test Suite
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          python -m unittest discover -s tests -v
+
+      - name: Scan Releases & Publish Summary
+        run: |
+          python scripts/version_resolver.py --refresh --github-summary
+
+      - name: Determine Target Version
+        id: target_version
+        run: |
+          INPUT_VER="${{ github.event.inputs.version }}"
+          if [ -z "$INPUT_VER" ] || [ "$INPUT_VER" = "latest" ] || [ "$INPUT_VER" = "last" ]; then
+            RESOLVED=$(python scripts/version_resolver.py --get-latest)
+            echo "version=$RESOLVED" >> "$GITHUB_OUTPUT"
+            echo "Packaging latest version: $RESOLVED"
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             TAG="${GITHUB_REF#refs/tags/v}"
             echo "version=$TAG" >> "$GITHUB_OUTPUT"
+            echo "Packaging tag version: $TAG"
           else
-            echo "version=7.3.1" >> "$GITHUB_OUTPUT"
+            CLEAN_VER="${INPUT_VER#v}"
+            echo "version=$CLEAN_VER" >> "$GITHUB_OUTPUT"
+            echo "Packaging selected version: $CLEAN_VER"
           fi
 
       - name: Build Free Profile
+        if: |
+          github.event_name != 'workflow_dispatch' ||
+          github.event.inputs.profile == 'all' ||
+          github.event.inputs.profile == 'Free'
         run: |
-          python fa_pro_v3.py --version ${{ steps.get_version.outputs.version }} --profile Free --css --fonts --non-interactive --archive
+          python fa_pro_v3.py \
+            --version ${{ steps.target_version.outputs.version }} \
+            --profile Free \
+            --css --fonts --non-interactive --archive
 
       - name: Build Pro Profile
+        if: |
+          github.event_name != 'workflow_dispatch' ||
+          github.event.inputs.profile == 'all' ||
+          github.event.inputs.profile == 'Pro'
         env:
           FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
         run: |
-          python fa_pro_v3.py --version ${{ steps.get_version.outputs.version }} --profile Pro --css --fonts --non-interactive --archive
+          python fa_pro_v3.py \
+            --version ${{ steps.target_version.outputs.version }} \
+            --profile Pro \
+            --css --fonts --non-interactive --archive
 
       - name: Build Pro-Plus Profile
+        if: |
+          github.event_name != 'workflow_dispatch' ||
+          github.event.inputs.profile == 'all' ||
+          github.event.inputs.profile == 'Pro-Plus'
         env:
           FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
         run: |
-          python fa_pro_v3.py --version ${{ steps.get_version.outputs.version }} --profile Pro-Plus --css --fonts --non-interactive --archive
+          python fa_pro_v3.py \
+            --version ${{ steps.target_version.outputs.version }} \
+            --profile Pro-Plus \
+            --css --fonts --non-interactive --archive
 
-      - name: Verify All Builds
+      - name: Verify All Generated Builds (Strict)
         run: |
-          python scripts/verify_build.py
+          python scripts/verify_build.py --level strict
 
-      - name: Upload Release Artifacts
+      - name: Upload Artifacts to Workflow Run
+        uses: actions/upload-artifact@v4
+        with:
+          name: FaFaProFree-v${{ steps.target_version.outputs.version }}-Packages
+          path: FaFaProFree-*.zip
+          retention-days: 14
+
+      - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: FaFaProFree-*.zip
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

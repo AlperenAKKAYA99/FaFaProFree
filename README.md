@@ -11,7 +11,7 @@
 
 ![FaFaProFree English Banner](assets/images/thumbnail.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![CI Build](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen.svg)](.github/workflows/build.yml)
 [![Scope: Educational Research](https://img.shields.io/badge/Scope-Educational%20Research-red.svg)](#-legal-licensing-and-copyright-warning)
@@ -295,5 +295,5 @@ The repository includes two automated workflows:
 
 ## 📄 Licensing Model
 
-- **Automation Tooling (Codebase):** Licensed under the [MIT License](LICENSE.txt).
+- **Automation Tooling (Codebase):** Licensed under the [MIT License](LICENSE).
 - **Font Awesome Assets:** Intellectual property of [Fonticons, Inc.](https://fontawesome.com) and subject to commercial licensing terms.
