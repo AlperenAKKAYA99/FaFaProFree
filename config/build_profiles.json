@@ -1,0 +1,158 @@
+{
+  "default_version": "7.3.1",
+  "supported_versions": [
+    "7.3.1",
+    "7.3.0",
+    "6.7.2",
+    "6.6.0",
+    "5.15.4"
+  ],
+  "cdn_base_url": "https://site-assets.fontawesome.com/releases",
+  "github_api_url": "https://api.github.com/repos/FortAwesome/Font-Awesome/releases/latest",
+  "repository": "user05-ioemlak/FaFaProFree",
+  "profiles": {
+    "Free": {
+      "label": "Free",
+      "display_name": "Font Awesome Free",
+      "description": "Temel ücretsiz stiller (Solid, Regular, Brands)",
+      "families": [
+        "brands",
+        "solid",
+        "regular"
+      ]
+    },
+    "Pro": {
+      "label": "Pro",
+      "display_name": "Font Awesome Pro",
+      "description": "17 Pro stil ailesi (Classic, Duotone, Sharp, Brands)",
+      "families": [
+        "brands",
+        "solid",
+        "regular",
+        "light",
+        "thin",
+        "duotone",
+        "duotone-regular",
+        "duotone-light",
+        "duotone-thin",
+        "sharp-solid",
+        "sharp-regular",
+        "sharp-light",
+        "sharp-thin",
+        "sharp-duotone-solid",
+        "sharp-duotone-regular",
+        "sharp-duotone-light",
+        "sharp-duotone-thin"
+      ]
+    },
+    "Pro-Plus": {
+      "label": "Pro-Plus",
+      "display_name": "Font Awesome Pro Plus",
+      "description": "37 stil ailesi (Pro'nun tamamı + 20 ek aile: Chisel, Etch, Jelly, Mosaic, Pixel, Slab, Utility, Vellum, Whiteboard vb.)",
+      "families": [
+        "brands",
+        "solid",
+        "regular",
+        "light",
+        "thin",
+        "duotone",
+        "duotone-regular",
+        "duotone-light",
+        "duotone-thin",
+        "sharp-solid",
+        "sharp-regular",
+        "sharp-light",
+        "sharp-thin",
+        "sharp-duotone-solid",
+        "sharp-duotone-regular",
+        "sharp-duotone-light",
+        "sharp-duotone-thin",
+        "chisel-regular",
+        "etch-solid",
+        "graphite-thin",
+        "jelly-regular",
+        "jelly-duo-regular",
+        "jelly-fill-regular",
+        "mosaic-solid",
+        "notdog-solid",
+        "notdog-duo-solid",
+        "pixel-regular",
+        "slab-regular",
+        "slab-press-regular",
+        "slab-duo-regular",
+        "slab-press-duo-regular",
+        "thumbprint-light",
+        "utility-semibold",
+        "utility-fill-semibold",
+        "utility-duo-semibold",
+        "vellum-solid",
+        "whiteboard-semibold"
+      ]
+    },
+    "Custom": {
+      "label": "Custom",
+      "display_name": "Custom Profile",
+      "description": "Kullanıcı tanımlı özel aile ve varlık seçimi",
+      "families": []
+    }
+  },
+  "family_weights": {
+    "brands": "400",
+    "solid": "900",
+    "regular": "400",
+    "light": "300",
+    "thin": "100",
+    "duotone": "900",
+    "duotone-regular": "400",
+    "duotone-light": "300",
+    "duotone-thin": "100",
+    "sharp-solid": "900",
+    "sharp-regular": "400",
+    "sharp-light": "300",
+    "sharp-thin": "100",
+    "sharp-duotone-solid": "900",
+    "sharp-duotone-regular": "400",
+    "sharp-duotone-light": "300",
+    "sharp-duotone-thin": "100",
+    "chisel-regular": "400",
+    "etch-solid": "900",
+    "graphite-thin": "100",
+    "jelly-regular": "400",
+    "jelly-duo-regular": "400",
+    "jelly-fill-regular": "400",
+    "mosaic-solid": "900",
+    "notdog-solid": "900",
+    "notdog-duo-solid": "900",
+    "pixel-regular": "400",
+    "slab-regular": "400",
+    "slab-press-regular": "400",
+    "slab-duo-regular": "400",
+    "slab-press-duo-regular": "400",
+    "thumbprint-light": "300",
+    "utility-semibold": "600",
+    "utility-fill-semibold": "600",
+    "utility-duo-semibold": "600",
+    "vellum-solid": "900",
+    "whiteboard-semibold": "600"
+  },
+  "common_files": {
+    "css": [
+      "all.css",
+      "fontawesome.css",
+      "v4-shims.css",
+      "v4-font-face.css",
+      "v5-font-face.css",
+      "svg-with-js.css",
+      "svg.css"
+    ],
+    "js": [
+      "all.js",
+      "fontawesome.js",
+      "conflict-detection.js",
+      "v4-shims.js"
+    ],
+    "webfonts": [
+      "fa-v4compatibility.woff2"
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+name: Build & Verify CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-build:
+    name: Build & Verification Test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        profile: ["Free", "Pro"]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Build Configuration
+        run: |
+          python scripts/verify_build.py --check-config
+
+      - name: Execute Build (${{ matrix.profile }})
+        env:
+          FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
+        run: |
+          python fa_pro_v3.py --version 7.3.1 --profile ${{ matrix.profile }} --css --fonts --non-interactive --archive
+
+      - name: Verify Build Integrity & Security
+        run: |
+          python scripts/verify_build.py
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FaFaProFree-v7.3.1-${{ matrix.profile }}-py${{ matrix.python-version }}
+          path: FaFaProFree-*.zip
+          retention-days: 7

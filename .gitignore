@@ -1,0 +1,56 @@
+# Build artifacts
+build/
+dist/
+*.zip
+*.tar.gz
+*.tar.bz2
+
+# Environment variables & secrets (NEVER COMMIT CREDENTIALS)
+.env
+.env.*
+*.token
+*.key
+credentials*
+secrets*
+*.pem
+*.pfx
+*.p12
+
+# Logs & debugging
+logs/
+*.log
+*.log.*
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test and scratch files
+scratch/
+test_*/
+temp_*/
+*.tmp

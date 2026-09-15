@@ -1,0 +1,74 @@
+name: Release Packaging
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Font Awesome version to package (e.g. 7.3.1)'
+        required: true
+        default: '7.3.1'
+
+permissions:
+  contents: write
+
+jobs:
+  package-release:
+    name: Package Release Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Determine Version
+        id: get_version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            TAG="${GITHUB_REF#refs/tags/v}"
+            echo "version=$TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=7.3.1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Free Profile
+        run: |
+          python fa_pro_v3.py --version ${{ steps.get_version.outputs.version }} --profile Free --css --fonts --non-interactive --archive
+
+      - name: Build Pro Profile
+        env:
+          FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
+        run: |
+          python fa_pro_v3.py --version ${{ steps.get_version.outputs.version }} --profile Pro --css --fonts --non-interactive --archive
+
+      - name: Build Pro-Plus Profile
+        env:
+          FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
+        run: |
+          python fa_pro_v3.py --version ${{ steps.get_version.outputs.version }} --profile Pro-Plus --css --fonts --non-interactive --archive
+
+      - name: Verify All Builds
+        run: |
+          python scripts/verify_build.py
+
+      - name: Upload Release Artifacts
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: FaFaProFree-*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

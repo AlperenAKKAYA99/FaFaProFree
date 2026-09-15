@@ -1,0 +1,65 @@
+FaFaProFree - Project License & Educational Research Notice
+============================================================
+
+PART 1: SOFTWARE TOOLING LICENSE (MIT LICENSE)
+----------------------------------------------
+Copyright (c) 2026 FaFaProFree Contributors
+Repository: https://github.com/user05-ioemlak/FaFaProFree
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this automation software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+PART 2: STRICT EDUCATIONAL USE & COPYRIGHT WARNING
+--------------------------------------------------
+IMPORTANT NOTICE ON INTELLECTUAL PROPERTY AND THIRD-PARTY ASSETS:
+
+1. Educational & Research Scope:
+   This project is developed solely for educational, pedagogical, and technical
+   research purposes. Its primary objectives are to investigate Content Delivery
+   Network (CDN) caching behaviors, HTTP Range resumption protocols, automated
+   asset dependency resolution via stylesheet parsing, and local build pipeline
+   integrity verification.
+
+2. Intellectual Property & Trademarks:
+   "Font Awesome", "Fonticons", and all associated logos, icons, glyphs, font
+   binaries (.woff2, .ttf), and vector designs are the exclusive registered
+   trademarks and proprietary intellectual property of Fonticons, Inc.
+   (https://fontawesome.com).
+
+3. Copyright Infringement Risk (Telif Hakkı Uyarısı):
+   Font Awesome Pro is commercial software. Downloading, embedding, hosting,
+   or deploying Font Awesome Pro assets in production, commercial, or public
+   environments WITHOUT a valid, paid commercial license purchased from Fonticons, Inc.
+   CONSTITUTES COPYRIGHT INFRINGEMENT and may expose individuals or organizations
+   to serious legal claims and financial liabilities.
+
+4. No Transfer of Rights or Endorsement:
+   This repository and its maintainers:
+   - Do NOT own, sublicense, resell, or distribute Font Awesome Pro assets.
+   - Do NOT grant any exemption from Fonticons, Inc.'s commercial licensing terms.
+   - Are NOT affiliated with, authorized by, sponsored by, or endorsed by
+     Fonticons, Inc. or Font Awesome.
+
+5. User Responsibility & Mandatory Official Licensing:
+   All users who utilize this tooling to inspect, test, or manage Font Awesome
+   assets assume full, sole, and exclusive legal responsibility for their actions.
+   Prior to any commercial, public, or production deployment, users MUST obtain
+   an official commercial license directly from:
+   https://fontawesome.com/plans
+   https://fontawesome.com/license
