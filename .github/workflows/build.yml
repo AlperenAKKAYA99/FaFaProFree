@@ -141,7 +141,7 @@ jobs:
           python fa_pro_v3.py \
             --version ${{ needs.discovery.outputs.resolved_version }} \
             --profile ${{ matrix.profile }} \
-            --css --fonts --non-interactive --archive
+            --all --non-interactive --archive
 
       - name: Verify Build Integrity & Security (Strict)
         run: |

@@ -85,7 +85,7 @@ jobs:
           python fa_pro_v3.py \
             --version ${{ steps.target_version.outputs.version }} \
             --profile Free \
-            --css --fonts --non-interactive --archive
+            --all --non-interactive --archive
 
       - name: Build Pro Profile
         if: |
@@ -98,7 +98,7 @@ jobs:
           python fa_pro_v3.py \
             --version ${{ steps.target_version.outputs.version }} \
             --profile Pro \
-            --css --fonts --non-interactive --archive
+            --all --non-interactive --archive
 
       - name: Build Pro-Plus Profile
         if: |
@@ -111,7 +111,7 @@ jobs:
           python fa_pro_v3.py \
             --version ${{ steps.target_version.outputs.version }} \
             --profile Pro-Plus \
-            --css --fonts --non-interactive --archive
+            --all --non-interactive --archive
 
       - name: Verify All Generated Builds (Strict)
         run: |

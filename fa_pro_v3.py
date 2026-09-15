@@ -205,14 +205,14 @@ def interactive_select_version(workspace_root: Path, config: Dict[str, Any], ref
 
 
 def interactive_select_categories() -> Dict[str, bool]:
-    """Prompts for target asset categories."""
+    """Prompts for target asset categories (Default: Complete Archive / All Assets)."""
     print()
     print("  +----------------------------------------------------+")
     print(f"  |            {_('wizard.select_categories_title'):<40} |")
     print("  +----------------------------------------------------+")
-    print(f"  |  [1] {_('wizard.cat_standard'):<46} |")
-    print(f"  |  [2] {_('wizard.cat_extended'):<46} |")
-    print(f"  |  [3] {_('wizard.cat_complete'):<46} |")
+    print(f"  |  [1] {_('wizard.cat_complete'):<46} |")
+    print(f"  |  [2] {_('wizard.cat_standard'):<46} |")
+    print(f"  |  [3] {_('wizard.cat_extended'):<46} |")
     print(f"  |  [4] {_('wizard.cat_custom'):<46} |")
     print("  +----------------------------------------------------+")
     print()
@@ -220,10 +220,13 @@ def interactive_select_categories() -> Dict[str, bool]:
     while True:
         choice = input(f"  {_('wizard.select_cat_prompt')}").strip() or "1"
         if choice == "1":
-            return {"css": True, "js": True, "fonts": True, "sprites": False}
-        elif choice == "2":
+            # Tam Arşiv (Tüm Varlıklar) - Varsayılan
             return {"css": True, "js": True, "fonts": True, "sprites": True}
+        elif choice == "2":
+            # Standart Web Paketi (CSS + JS + Webfonts)
+            return {"css": True, "js": True, "fonts": True, "sprites": False}
         elif choice == "3":
+            # Tam Arşiv (Tüm Varlıklar)
             return {"css": True, "js": True, "fonts": True, "sprites": True}
         elif choice == "4":
             cats = {}
@@ -446,7 +449,7 @@ def main():
             pages=args.pages
         )
 
-    # 7. Determine Categories
+    # 7. Determine Categories (Default: Complete Archive / All Assets)
     if args.all:
         categories = {"css": True, "js": True, "fonts": True, "sprites": True}
     elif any([args.css, args.js, args.fonts, args.sprites]):
@@ -457,7 +460,8 @@ def main():
             "sprites": args.sprites,
         }
     elif args.non_interactive or args.dry_run or args.verify or args.repair:
-        categories = {"css": True, "js": True, "fonts": True, "sprites": False}
+        # Default for non-interactive / automated builds is always Complete Archive (All Assets)
+        categories = {"css": True, "js": True, "fonts": True, "sprites": True}
     else:
         categories = interactive_select_categories()
 
