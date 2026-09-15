@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fafaprofree"
+version = "3.2.0"
+description = "Network protocols, CDN architecture, and intelligent asset build automation laboratory."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "user05-ioemlak", email = "contributors@fafaprofree.local" }
+]
+keywords = [
+    "fontawesome",
+    "cdn",
+    "assets",
+    "build-tool",
+    "sha256",
+    "integrity",
+    "automation",
+    "i18n"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Internet :: WWW/HTTP"
+]
+dependencies = [
+    "requests>=2.28.0",
+    "python-dotenv>=1.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/user05-ioemlak/FaFaProFree"
+Documentation = "https://github.com/user05-ioemlak/FaFaProFree/blob/main/README.md"
+Repository = "https://github.com/user05-ioemlak/FaFaProFree.git"
+Issues = "https://github.com/user05-ioemlak/FaFaProFree/issues"
+Changelog = "https://github.com/user05-ioemlak/FaFaProFree/blob/main/CHANGELOG.md"
+
+[project.scripts]
+fafapro = "fa_pro_v3:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scripts*", "config*", "lang*"]

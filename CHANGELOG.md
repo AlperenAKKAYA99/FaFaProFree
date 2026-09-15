@@ -5,7 +5,29 @@ All notable changes to the FaFaProFree project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2026-09-15
+
+### Added
+- **Repository Architecture & Layout Restructuring**:
+  - Dedicated asset hierarchy under `assets/images/` for clean root directory presentation.
+  - Relocated and standardized localized hero banners (`thumbnail.png`, `thumbnail_tr.png`, `thumbnail_ru.png`, `thumbnail_de.png`).
+- **Open-Source Governance & Community Health**:
+  - `.github/ISSUE_TEMPLATE/bug_report.md`: Structured issue reporting form with runtime environment specs.
+  - `.github/ISSUE_TEMPLATE/feature_request.md`: Structured proposal form for enhancements and profiles.
+  - `.github/PULL_REQUEST_TEMPLATE.md`: Comprehensive review checklist for security, tests, and documentation.
+  - `.github/dependabot.yml`: Automated daily dependency monitoring for GitHub Actions and Python dependencies.
+  - `CONTRIBUTING.md`: Contributor workflow guidelines covering coding standards, i18n conventions, and token hygiene.
+  - `SECURITY.md`: Vulnerability reporting process, credential sanitization enforcement, and security policies.
+  - `CODE_OF_CONDUCT.md`: Contributor Covenant v2.1 community standard.
+- **Python Packaging & Entrypoint Standardization**:
+  - `pyproject.toml`: Modern PEP 518 / PEP 621 packaging metadata with console script entry point `fafapro`.
+  - `main.py`: Top-level universal entrypoint delegating directly to `fa_pro_v3.py:main`.
+- **Automated Test Suite (`tests/`)**:
+  - `tests/test_i18n.py`: Automated validation across all 4 language dictionaries (`en`, `tr`, `ru`, `de`), parameter interpolation, JSON syntax, and fallback chains.
+  - `tests/test_version_resolver.py`: Unit tests for SemVer parsing, descending sorting, version cleaning, and major grouping.
+
 ## [3.2.0] - 2026-09-15
+
 
 ### Added
 - **Internationalization (i18n) Engine (`scripts/i18n.py`)**:

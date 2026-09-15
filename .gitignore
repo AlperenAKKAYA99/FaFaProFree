@@ -49,8 +49,21 @@ ENV/
 Thumbs.db
 desktop.ini
 
-# Test and scratch files
+# Test, staging, and scratch files
 scratch/
 test_*/
 temp_*/
 *.tmp
+*.part
+.staging/
+.cache/
+.backup/
+
+# Packaging distributions
+*.egg-info/
+.eggs/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/

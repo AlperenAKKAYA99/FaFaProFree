@@ -9,7 +9,7 @@
 
 <br/>
 
-![FaFaProFree Русский Баннер](Font%20Awesome%20Pro%20Free%20Thumbnail_ru.png)
+![FaFaProFree Русский Баннер](assets/images/thumbnail_ru.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
