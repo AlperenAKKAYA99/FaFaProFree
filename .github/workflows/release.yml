@@ -114,7 +114,7 @@ jobs:
           python scripts/verify_build.py --level strict
 
       - name: Upload Artifacts to Workflow Run
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FaFaProFree-v${{ steps.target_version.outputs.version }}-Packages
           path: FaFaProFree-*.zip
