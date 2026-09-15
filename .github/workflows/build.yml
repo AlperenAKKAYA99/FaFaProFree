@@ -136,7 +136,7 @@ jobs:
           python scripts/verify_build.py --level strict
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FaFaProFree-v${{ needs.discovery.outputs.resolved_version }}-${{ matrix.profile }}
           path: FaFaProFree-*.zip
