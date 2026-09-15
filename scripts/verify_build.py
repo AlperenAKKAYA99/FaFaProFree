@@ -15,6 +15,11 @@ import argparse
 from pathlib import Path
 from typing import List, Tuple, Dict, Any, Set, Optional
 
+# Ensure project root is in sys.path for direct CLI execution
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from scripts.hasher import compute_sha256, load_manifest
 from scripts.i18n import _
 

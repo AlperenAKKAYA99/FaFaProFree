@@ -12,6 +12,12 @@ import shutil
 import argparse
 from pathlib import Path
 
+# Ensure project root is in sys.path for direct execution
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+
 # Windows console encoding fix (cp1254 -> utf-8)
 if sys.stdout and hasattr(sys.stdout, 'encoding'):
     if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):

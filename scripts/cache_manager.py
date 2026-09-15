@@ -7,9 +7,16 @@ isolation, and atomic build promotion.
 """
 
 import os
+import sys
 import shutil
 from pathlib import Path
 from typing import Optional, Dict, Any, List, Tuple
+
+# Ensure project root is in sys.path for direct execution
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from scripts.hasher import compute_sha256, load_manifest
 
 

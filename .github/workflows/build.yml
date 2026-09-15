@@ -1,4 +1,5 @@
 name: Build & Verify CI
+run-name: "CI Build: ${{ inputs.version != '' && format('v{0} ({1})', inputs.version, inputs.profile) || github.ref_name }}"
 
 on:
   push:
@@ -27,6 +28,9 @@ on:
 
 permissions:
   contents: read
+
+env:
+  PYTHONPATH: .
 
 jobs:
   unit-tests:
